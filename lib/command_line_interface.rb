@@ -7,12 +7,13 @@ require 'pry'
 
 class CommandLineInterface
 # establish attributes
-@@new_release_link = "https://store.steampowered.com/games/#p=0&tab=NewReleases"
-@@top_sellers_link = "https://store.steampowered.com/games/#p=0&tab=TopSellers"
+
 # run
 def run
   # for testing
   new_releases = Scraper.new.scrape_new_release_page
+  top_sellers = Scraper.new.scrape_top_sellers_page
+  binding.pry
 end
 
 # welcome user, prompt for which list from steam to access

@@ -7,7 +7,7 @@ class Game
   @@all = []
 
 # initialize
-  def initialize(name, price = nil) #initializing with only name and price data from first scrape
+  def initialize(name, price = nil, link) #initialize with only name and price data from first scrape
     @name = name
     @price = price
   end
