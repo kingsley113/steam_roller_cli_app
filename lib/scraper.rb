@@ -13,11 +13,12 @@ class Scraper
     # create array of list of game elements on page
     all_games = doc.css(".tab_content_ctn.sub, NewReleaseRows")
     #complete attribute info on each game
-    game = all_games.each_with_index do |index, content|
-
-
+    all_games.each_with_index do |info, index|
+      game_name =
+      binding.pry
+    end
     # game_name = first_game.css(".tab_item_name").text
-    binding.pry
+    # binding.pry
   end
 # scrape Steam highest rated games page
 
