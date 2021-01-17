@@ -1,11 +1,13 @@
+require 'open-uri'
 require 'pry'
 
 class Scraper
 # establish attributes
 
-# initialize
-
 # scrape Steam new release games page
+def self.scrape_new_release_page(index_url)
+  doc = Nokogiri::HTML(open("https://store.steampowered.com/explore/new/"))
+  game_list = doc.css(".tab_item.app_impression_tracked")
 
 # scrape Steam highest rated games page
 

@@ -3,11 +3,15 @@ require_relative "../lib/game.rb"
 require_relative "../lib/scraper.rb"
 require "nokogiri"
 require "colorize"
+require 'pry'
 
 class CommandLineInterface
 # establish attributes
 
 # run
+def run
+
+end
 
 # welcome user, prompt for which list from steam to access
 
@@ -29,5 +33,4 @@ class CommandLineInterface
 # return sorted list - rating
 # return sorted list - by developer alphabetically
 # return sorted list - release date
-
 end
