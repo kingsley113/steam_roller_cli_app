@@ -5,9 +5,10 @@ class Scraper
 # establish attributes
 
 # scrape Steam new release games page
-def self.scrape_new_release_page(index_url)
-  doc = Nokogiri::HTML(open("https://store.steampowered.com/explore/new/"))
+def scrape_new_release_page(html_link)
+  doc = Nokogiri::HTML(open(html_link))
   game_list = doc.css(".tab_item.app_impression_tracked")
+  binding.pry
 
 # scrape Steam highest rated games page
 
