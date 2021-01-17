@@ -12,7 +12,7 @@ class CommandLineInterface
 # run
 def run
   # for testing
-  new_releases = scrape_new_release_page(@@new_release_link)
+  new_releases = Scraper.new.scrape_new_release_page
 end
 
 # welcome user, prompt for which list from steam to access
