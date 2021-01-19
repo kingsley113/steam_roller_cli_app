@@ -49,6 +49,9 @@ class CommandLineInterface
 #   make game objects from 'new release' list
 #   make game objects from 'highest rated' list
 
+  def make_game_objects(game_array)
+    
+
 
 # display selected list back to user
 

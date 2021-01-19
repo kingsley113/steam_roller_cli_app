@@ -33,7 +33,7 @@ class Scraper
       game_name   = info.css(".tab_item_name").text
       game_price  = info.css(".discount_final_price").text
 
-      game_info = {link: game_link, name: game_name, price: game_price}
+      game_info = {name: game_name, price: game_price, link: game_link}
       game_list << game_info
     end
 
