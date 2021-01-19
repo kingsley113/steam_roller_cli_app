@@ -7,6 +7,7 @@ require 'pry'
 
 class CommandLineInterface
 # establish attributes
+  attr_accessor :selected_list
 
 # run
   def run
@@ -16,12 +17,14 @@ class CommandLineInterface
     if user_list_selection == 1
       game_array = Scraper.new.scrape_new_release_page
       make_game_objects(game_array)
+      @selected_list = "New Releases:"
     elsif user_list_selection == 2
       game_array = Scraper.new.scrape_top_sellers_page
       make_game_objects(game_array)
+      @selected_list = "Top Sellers:"
     end
     display_game_list
-    binding.pry
+    # binding.pry
   end
 
 # welcome user, prompt for which list from steam to access
@@ -59,10 +62,26 @@ class CommandLineInterface
 
 # display selected list back to user
   def display_game_list
+    # identify how many characters in the longest name, for formatting output
+    name_length = []
+    Game.all.each do |game|
+      name_length << game.name.length
+    end
+    max_length = name_length.max
+  # binding.pry
+
+    # output the list header
+    puts "\n" + ('-' * (max_length + 20))
+    puts "#{@selected_list}".center(max_length + 20, " ")
+    puts ('-' * (max_length + 20))
+
+    # output the list details, iterate over each instance
     Game.all.each_with_index do |game, index|
-      puts "#{index + 1}. #{game.name}: #{game.price}"
+      index < 9 ? game_no = " #{index + 1}." : game_no = "#{index + 1}." # adjust number column formatting
+      puts "#{game_no} #{game.name}:" + (' ' * (max_length - game.name.length + 9)) + "#{game.price}"
     end
   end
+  
 # promp user for additional action
 
 # take user input and call next method
