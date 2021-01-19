@@ -20,6 +20,7 @@ class CommandLineInterface
       game_array = Scraper.new.scrape_top_sellers_page
       make_game_objects(game_array)
     end
+    display_game_list
     binding.pry
   end
 
@@ -57,7 +58,11 @@ class CommandLineInterface
 
 
 # display selected list back to user
-
+  def display_game_list
+    Game.all.each_with_index do |game, index|
+      puts "#{index + 1}. #{game.name}: #{game.price}"
+    end
+  end
 # promp user for additional action
 
 # take user input and call next method
