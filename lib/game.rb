@@ -2,7 +2,7 @@ require 'pry'
 
 class Game
 # establish attributes
-  attr_accessor :name, :price, :release_date, :developer, :rating, :page_link
+  attr_accessor :name, :price, :release_date, :developer, :rating, :link
 
   @@all = []
 
@@ -15,11 +15,11 @@ class Game
 
 # save
   def save
-    @all << self
+    @@all << self
   end
 
 # all - class method
-  def self.all?
+  def self.all
     @@all
   end
 
@@ -29,12 +29,13 @@ class Game
   end
 
 # create game objects
-  def create_from_collection(game_list)
+  def self.create_from_collection(game_list)
     game_list.each do |game_object|
-      Game.new(game_object[0], game_object[1], game_object[2])
+      game = Game.new(game_object[:name], game_object[:price], game_object[:link])
+      game.save
     end
   end
-  
+
 # check for missing info - pass to scraper to get info
   def add_missing_info
   # check for empty attributes

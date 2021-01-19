@@ -7,16 +7,18 @@ require 'pry'
 
 class CommandLineInterface
 # establish attributes
-  @@all = []
+
 # run
   def run
     welcome_user
     user_list_selection = get_first_input
     # for testing
     if user_list_selection == 1
-      @@all = Scraper.new.scrape_new_release_page
+      game_array = Scraper.new.scrape_new_release_page
+      make_game_objects(game_array)
     elsif user_list_selection == 2
-      @@all = Scraper.new.scrape_top_sellers_page
+      game_array = Scraper.new.scrape_top_sellers_page
+      make_game_objects(game_array)
     end
     binding.pry
   end
@@ -50,7 +52,8 @@ class CommandLineInterface
 #   make game objects from 'highest rated' list
 
   def make_game_objects(game_array)
-    
+    Game.create_from_collection(game_array)
+  end
 
 
 # display selected list back to user
