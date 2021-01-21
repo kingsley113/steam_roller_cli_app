@@ -13,7 +13,7 @@ class CommandLineInterface
   def run
     welcome_user
     user_list_selection = get_first_input
-    # for testing
+
     if user_list_selection == 1
       game_array = Scraper.new.scrape_new_release_page
       make_game_objects(game_array)
@@ -24,10 +24,10 @@ class CommandLineInterface
       @selected_list = "Top Sellers:"
     end
     display_game_list
-    # binding.pry
+    get_next_input
   end
 
-# welcome user, prompt for which list from steam to access
+# welcome user, prompt for which Steam list to access
   def welcome_user
     puts "----------------------------------------------------------------------------"
     puts "Welcome to the Steam Roller! The quickest way to access the top Steam games!"
@@ -51,10 +51,7 @@ class CommandLineInterface
     user_input
   end
 
-# pass user selection to scraper to get info
-#   make game objects from 'new release' list
-#   make game objects from 'highest rated' list
-
+# create the game objects from user selection
   def make_game_objects(game_array)
     Game.create_from_collection(game_array)
   end
@@ -68,21 +65,33 @@ class CommandLineInterface
       name_length << game.name.length
     end
     max_length = name_length.max
-  # binding.pry
 
     # output the list header
     puts "\n" + ('-' * (max_length + 20))
     puts "#{@selected_list}".center(max_length + 20, " ")
     puts ('-' * (max_length + 20))
 
-    # output the list details, iterate over each instance
+    # output the list details, iterate over each instance to print game list
     Game.all.each_with_index do |game, index|
-      index < 9 ? game_no = " #{index + 1}." : game_no = "#{index + 1}." # adjust number column formatting
-      puts "#{game_no} #{game.name}:" + (' ' * (max_length - game.name.length + 9)) + "#{game.price}"
+      puts "#{index + 1}.".rjust(3) + " #{game.name}:" + (' ' * (max_length - game.name.length + 9)) + "#{game.price}"
     end
   end
-  
+
 # promp user for additional action
+  def get_next_input
+    puts "\nSelect game to see more details. (enter 1-15)"
+    puts "For more options, enter 'more'"
+    user_input = gets.chomp
+    if user_input.to_i.between?(1, 15)        # check for game entry
+      user_input
+    elsif user_input.downcase == "more"       # check for 'more' entry
+      puts "more options!!!"
+      user_input = 0
+    else
+      puts "Invalid entry, please try again." # check for other invalid entry
+      next_input
+    end
+  end
 
 # take user input and call next method
 
