@@ -67,7 +67,8 @@ class CommandLineInterface
     max_length = name_length.max
 
     # output the list header
-    puts "\n" + ('-' * (max_length + 20))
+    header_width = max_length + 20
+    puts "\n" + ('-' * header_width)
     puts "#{@selected_list}".center(max_length + 20, " ")
     puts ('-' * (max_length + 20))
 
@@ -75,6 +76,7 @@ class CommandLineInterface
     Game.all.each_with_index do |game, index|
       puts "#{index + 1}.".rjust(3) + " #{game.name}:" + (' ' * (max_length - game.name.length + 9)) + "#{game.price}"
     end
+    puts ('-' * header_width)
   end
 
 # promp user for additional action
@@ -89,7 +91,7 @@ class CommandLineInterface
       user_input = 0
     else
       puts "Invalid entry, please try again." # check for other invalid entry
-      next_input
+      get_next_input
     end
   end
 
