@@ -24,14 +24,15 @@ class CommandLineInterface
       @selected_list = "Top Sellers:"
     end
     display_game_list
-    get_next_input
+    secondary_input = get_next_input
+    display_game_info
   end
 
 # welcome user, prompt for which Steam list to access
   def welcome_user
-    puts "----------------------------------------------------------------------------"
-    puts "Welcome to the Steam Roller! The quickest way to access the top Steam games!"
-    puts "----------------------------------------------------------------------------"
+    puts "----------------------------------------------------------------------------".colorize(:yellow)
+    puts "Welcome to the Steam Roller! The quickest way to access the top Steam games!".colorize(:yellow)
+    puts "----------------------------------------------------------------------------".colorize(:yellow)
     puts "\n"
   end
 
@@ -44,7 +45,7 @@ class CommandLineInterface
     user_input = gets.chomp.to_i
 
     if !user_input.between?(1,2)                    # check for valid user input
-      puts "Invalid entry, please try again."
+      puts "Invalid entry, please try again.".colorize(:red)
       get_first_input
     end
 
@@ -75,6 +76,7 @@ class CommandLineInterface
     # output the list details, iterate over each instance to print game list
     Game.all.each_with_index do |game, index|
       puts "#{index + 1}.".rjust(3) + " #{game.name}:" + (' ' * (max_length - game.name.length + 9)) + "#{game.price}"
+      game.list_no = index + 1
     end
     puts ('-' * header_width)
   end
@@ -93,10 +95,15 @@ class CommandLineInterface
       puts "Invalid entry, please try again." # check for other invalid entry
       get_next_input
     end
+    user_input
   end
 
 # take user input and call next method
 
+# display detailed game info based off of the selected game
+  def display_game_info(game_list_no)
+    binding.pry
+  end
 # return sorted list - aplhabetically
 # return sorted list - price
 # return sorted list - rating

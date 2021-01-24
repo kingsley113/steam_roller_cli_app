@@ -43,6 +43,9 @@ class Scraper
 
 # Scrape game page to fill in missing game info - only after selected on users
 # 2nd input selection to save time
+  def scrape_game_page(link)
+    doc = Nokogiri::HTML(open(link))  # get html data from website
+    game_list = doc.css('div#NewReleasesRows a')    # create array of games
 
 # Scrape Developer page and get list of games they released
 end
