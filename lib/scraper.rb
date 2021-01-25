@@ -45,7 +45,14 @@ class Scraper
 # 2nd input selection to save time
   def scrape_game_page(link)
     doc = Nokogiri::HTML(open(link))  # get html data from website
-    game_list = doc.css('div#NewReleasesRows a')    # create array of games
+    # get release date
+    release_date = doc.css(".release_date, .date").text
+    # get developer
+    developer = doc.css("#developers_list a").text
+    # get rating (recent ratings)
 
+
+    binding.pry
+  end
 # Scrape Developer page and get list of games they released
 end

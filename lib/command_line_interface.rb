@@ -7,7 +7,7 @@ require 'pry'
 
 class CommandLineInterface
 # establish attributes
-  attr_accessor :selected_list
+  attr_accessor :selected_list, :game_list_size
 
 # run
   def run
@@ -24,9 +24,13 @@ class CommandLineInterface
       @selected_list = "Top Sellers:"
     end
     display_game_list
+
+    # start second round of actions - this will repeat until user exits
     secondary_input = get_next_input
-    display_game_info
+    secondary_action(secondary_input)
+
   end
+
 
 # welcome user, prompt for which Steam list to access
   def welcome_user
@@ -35,6 +39,7 @@ class CommandLineInterface
     puts "----------------------------------------------------------------------------".colorize(:yellow)
     puts "\n"
   end
+
 
 # get user input for list selection
   def get_first_input
@@ -51,6 +56,7 @@ class CommandLineInterface
 
     user_input
   end
+
 
 # create the game objects from user selection
   def make_game_objects(game_array)
@@ -77,33 +83,43 @@ class CommandLineInterface
     Game.all.each_with_index do |game, index|
       puts "#{index + 1}.".rjust(3) + " #{game.name}:" + (' ' * (max_length - game.name.length + 9)) + "#{game.price}"
       game.list_no = index + 1
+      @game_list_size = index + 1
     end
     puts ('-' * header_width)
   end
+
 
 # promp user for additional action
   def get_next_input
     puts "\nSelect game to see more details. (enter 1-15)"
     puts "For more options, enter 'more'"
     user_input = gets.chomp
-    if user_input.to_i.between?(1, 15)        # check for game entry
-      user_input
-    elsif user_input.downcase == "more"       # check for 'more' entry
-      puts "more options!!!"
+    if user_input.to_i.between?(1, @game_list_size)   # check for game entry
+      user_input.to_i
+    elsif user_input.downcase == "more"               # check for 'more' entry
       user_input = 0
     else
       puts "Invalid entry, please try again." # check for other invalid entry
       get_next_input
     end
-    user_input
+
   end
 
+
 # take user input and call next method
+  def secondary_action(user_input)
+    if user_input.between?(1, @game_list_size)
+      selected_game = Game.all.find{|game| game.list_no == user_input}
+      Scraper.new.scrape_game_page(selected_game.link)
+    end
+  end
+
 
 # display detailed game info based off of the selected game
   def display_game_info(game_list_no)
-    binding.pry
   end
+
+
 # return sorted list - aplhabetically
 # return sorted list - price
 # return sorted list - rating
