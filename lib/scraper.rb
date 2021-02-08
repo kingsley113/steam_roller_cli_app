@@ -46,7 +46,7 @@ class Scraper
   def scrape_game_page(link)
     doc = Nokogiri::HTML(open(link))  # get html data from website
     # get release date
-    release_date = doc.css(".release_date, .date").text
+    release_date = doc.css(".release_date div.date").text
     # get developer
     developer = doc.css("#developers_list a").text
     # get rating (recent ratings)
@@ -58,8 +58,19 @@ class Scraper
     end
     tags.reject! {|t| t.empty?}
 
+    #return game_detail hash to then be inserted into game object later
+    game_detail = {release_date: release_date, developer: developer, rating: rating, tags: tags}
 
-    binding.pry
+    # fill any blank attribute with a "Not Available" (for mature content, etc.)
+    game_detail.each do |key, value|
+      if value == "" || value == []
+        game_detail[key] = "Not Available"
+      end
+    end
+
+    game_detail
   end
+
+
 # Scrape Developer page and get list of games they released
 end

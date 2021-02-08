@@ -36,11 +36,17 @@ class Game
     end
   end
 
+
 # check for missing info - pass to scraper to get info
   def add_missing_info
-  # check for empty attributes
-  # call scraper class to get info from specific game page
+  # scrape game page and gather the detailed info
+  game_detail = Scraper.new.scrape_game_page(link)
+
+  # add detailed game info to the instance attributes
+  @release_date = game_detail[:release_date]
+  @developer = game_detail[:developer]
+  @rating = game_detail[:rating]
+  @tags = game_detail[:tags]
   end
 
-# return info on one specific game instance
 end

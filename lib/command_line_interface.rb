@@ -7,7 +7,7 @@ require 'pry'
 
 class CommandLineInterface
 # establish attributes
-  attr_accessor :selected_list, :game_list_size
+  attr_accessor :selected_list, :game_list_size, :header_width
 
 # run
   def run
@@ -74,9 +74,10 @@ class CommandLineInterface
     max_length = name_length.max
 
     # output the list header
-    header_width = max_length + 20
-    puts "\n" + ('-' * header_width)
-    puts "#{@selected_list}".center(max_length + 20, " ")
+    @header_width = max_length + 20
+    puts "\n" + ('-' * @header_width)
+    puts "#{@selected_list}".center(@header_width)
+    # puts "#{@selected_list}".center(max_length + 20, " ")
     puts ('-' * (max_length + 20))
 
     # output the list details, iterate over each instance to print game list
@@ -85,7 +86,7 @@ class CommandLineInterface
       game.list_no = index + 1
       @game_list_size = index + 1
     end
-    puts ('-' * header_width)
+    puts ('-' * @header_width)
   end
 
 
@@ -110,13 +111,52 @@ class CommandLineInterface
   def secondary_action(user_input)
     if user_input.between?(1, @game_list_size)
       selected_game = Game.all.find{|game| game.list_no == user_input}
-      Scraper.new.scrape_game_page(selected_game.link)
+      # add in the mising detailed game info
+      selected_game.add_missing_info
+      # display the game details
+      display_game_info(selected_game)
+    elsif user_input == 0
+      #TODO display other options here
     end
+    #TODO make sure this repeats until user exits
   end
 
 
 # display detailed game info based off of the selected game
-  def display_game_info(game_list_no)
+  def display_game_info(game)
+    # display header
+    puts ("-" * @header_width)
+    puts "Game Info".center(@header_width)
+    puts ("-" * @header_width)
+    #display game info lines
+    # game title
+    puts "Title:".rjust(13) + " #{game.name}"
+    # list number "#X top seller" etc.
+    puts "Rank:".rjust(13) + " ##{game.list_no} #{@selected_list.chop.chop}"
+    # price
+    puts "Price:".rjust(13) + " #{game.price}"
+    # rating
+    puts "Rating:".rjust(13) + " #{game.rating}"
+    # release date
+    puts "Release Date:".rjust(13) + " #{game.release_date}"
+    # developer
+    puts "Developer:".rjust(13) + " #{game.developer}"
+    # tags
+      print "User Tags:".rjust(13) + " "
+      if game.tags != "Not Available"
+        game.tags.each_with_index do |tag, index|
+          if index == 0
+            print "#{tag}"
+          else
+            print ", #{tag}"
+          end
+        end
+      else
+        print "Not Available"
+      end
+    puts "\n"
+
+    puts ("-" * @header_width)
   end
 
 
