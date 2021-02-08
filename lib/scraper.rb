@@ -50,6 +50,13 @@ class Scraper
     # get developer
     developer = doc.css("#developers_list a").text
     # get rating (recent ratings)
+    rating = doc.css(".game_review_summary[@itemprop = 'description']").text
+    # get array of user game tags
+    tags = []
+    doc.css(".app_tag").each do |tag|
+      tags << tag.text.delete("\t, \r, \n, +")
+    end
+    tags.reject! {|t| t.empty?}
 
 
     binding.pry
