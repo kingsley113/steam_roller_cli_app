@@ -183,7 +183,7 @@ end
 
 
   def more_actions(input)
-    if input.between?(1,4)
+    if input.between?(1,4) #call one of the sorting methods
       puts "this will send the input to the corresponding list sorting method"
       sort_game_list(input)
     elsif input == 5 #start over and clear the instances
@@ -209,12 +209,14 @@ end
   def sort_game_list(input)
     sorted_list = []
     if input == 1 # sort list by name
-      sorted_list = Game.all.sort_by {|obj| obj.name}
-      sort = "name"
+      sort_list_by_name
+      # = Game.all.sort_by {|obj| obj.name}
+      # sort = "name"
       # puts "sort the list by name"
     elsif input == 2 # sort list by price
-      sorted_list = Game.all.sort_by {|obj| obj.price}
-      sort = "price"
+      sort_list_by_price
+      #  = Game.all.sort_by {|obj| obj.price}
+      # sort = "price"
       # puts "sort the list by price"
     elsif input == 3 # sort list by developer
       sorted_list = Game.all.sort_by {|obj| obj.developer}
@@ -227,26 +229,44 @@ end
     end
 
 
-    display_sorted_game_list(sorted_list, sort)
+    # display_sorted_game_list(sorted_list, sort)
   end
 
 
-  def display_sorted_game_list(sorted_list, sort)
-    puts "this would be the sorted game list here"
-    sorted_list.each do |game|
-      if sort = "name"
-        puts "#{game.name}"
-      elsif sort == "price"
-        puts " sorted by price!! #{game.name}, #{game.price}"
-      elsif sort == "developer"
-        puts "#{game.name}, #{game.developer}"
-      elsif sort == "release_date"
-        puts "#{game.name}, #{game.release_date}"
-      end
+  # def display_sorted_game_list(sorted_list, sort)
+  #   puts "this would be the sorted game list here"
+  #   sorted_list.each do |game|
+  #     if sort == "name"
+  #       puts "#{game.name}"
+  #     elsif sort == "price"
+  #       puts " sorted by price!! #{game.name}, #{game.price}"
+  #     elsif sort == "developer"
+  #       puts "#{game.name}, #{game.developer}"
+  #     elsif sort == "release_date"
+  #       puts "#{game.name}, #{game.release_date}"
+  #     end
+  #   end
+  # end
 
+  def sort_list_by_name
+    Game.all.each do |game|
+    end
+
+    # Game.all.sort_by {|obj| obj.name}
+
+  end
+
+  def sort_list_by_price
+    Game.all.each do |game|
+      game.price_stripped = game.price.scan(/\d/).join
+    end
+
+    sorted_list = Game.all.sort_by {|obj| obj.price_stripped}
+
+    sorted_list.each_with_index do |game, index|
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}, #{game.price}"
     end
   end
-
 
 # line break method to clean up code
   def line_break

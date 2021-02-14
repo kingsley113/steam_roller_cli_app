@@ -2,7 +2,7 @@ require 'pry'
 
 class Game
 # establish attributes
-  attr_accessor :name, :price, :release_date, :developer, :tags, :rating, :link, :list_no
+  attr_accessor :name, :price, :release_date, :developer, :tags, :rating, :link, :list_no, :price_stripped, :date_stripped
 
   @@all = []
 
