@@ -248,13 +248,14 @@ end
   #   end
   # end
 
-  def sort_list_by_name
-    Game.all.each do |game|
+  def sort_list_by_name # display list sorted by game name
+    sorted_list = Game.all.sort_by {|obj| obj.name}
+
+    sorted_list.each_with_index do |game, index|
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}"
     end
-
-    # Game.all.sort_by {|obj| obj.name}
-
   end
+
 
   def sort_list_by_price
     Game.all.each do |game|
@@ -264,7 +265,7 @@ end
     sorted_list = Game.all.sort_by {|obj| obj.price_stripped}
 
     sorted_list.each_with_index do |game, index|
-      puts "#{index + 1}. ".rjust(4) + "#{game.name}, #{game.price}"
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}, #{game.price_stripped}"
     end
   end
 
