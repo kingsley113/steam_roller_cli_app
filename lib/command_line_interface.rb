@@ -14,7 +14,7 @@ def initialize
   @header_color = :yellow
 end
 
-# run
+# run ------------------------------------------------------
   def run
     welcome_user
     user_list_selection = get_first_input
@@ -22,11 +22,11 @@ end
     if user_list_selection == 1
       game_array = Scraper.new.scrape_new_release_page
       make_game_objects(game_array)
-      @selected_list = "New Releases:"
+      @selected_list = "NEW RELEASES:"
     elsif user_list_selection == 2
       game_array = Scraper.new.scrape_top_sellers_page
       make_game_objects(game_array)
-      @selected_list = "Top Sellers:"
+      @selected_list = "TOP SELLERS:"
     end
     display_game_list
 
@@ -35,13 +35,15 @@ end
     secondary_action(secondary_input)
 
   end
+# run ------------------------------------------------------
 
 
 # welcome user, prompt for which Steam list to access
   def welcome_user
-    puts ("~" * @header_width).colorize(@header_color)
-    puts "Welcome to the Steam Roller! The quickest way to access the top Steam games!".center(@header_width).colorize(@header_color)
-    puts ("~" * @header_width).colorize(@header_color)
+    line_break
+    # puts "Welcome to the Steam Roller! The quickest way to access the top Steam games!".center(@header_width).colorize(@header_color)
+    puts "WELCOME TO THE STEAM ROLLER! THE QUICKEST WAY TO ACCESS THE TOP STEAM GAMES!".center(@header_width).colorize(@header_color)
+    line_break
     puts "\n"
   end
 
@@ -80,10 +82,10 @@ end
 
     # output the list header
     # @header_width = max_length + 20
-    puts "\n" + ('~' * @header_width).colorize(@header_color)
+    line_break
     puts "#{@selected_list}".center(@header_width).colorize(@header_color)
     # puts "#{@selected_list}".center(max_length + 20, " ")
-    puts ('~' * (@header_width)).colorize(@header_color)
+    line_break
 
     # output the list details, iterate over each instance to print game list
     Game.all.each_with_index do |game, index|
@@ -91,7 +93,7 @@ end
       game.list_no = index + 1
       @game_list_size = index + 1
     end
-    puts ('~' * @header_width).colorize(@header_color)
+    line_break
   end
 
 
@@ -121,6 +123,7 @@ end
       # display the game details
       display_game_info(selected_game)
     elsif user_input == 0
+      more_actions(get_input_more_options)
       #TODO display other options here
     end
     #TODO make sure this repeats until user exits
@@ -130,9 +133,9 @@ end
 # display detailed game info based off of the selected game
   def display_game_info(game)
     # display header
-    puts ("-" * @header_width).colorize(@header_color)
+    line_break
     puts "Game Info".center(@header_width).colorize(@header_color)
-    puts ("-" * @header_width).colorize(@header_color)
+    line_break
     #display game info lines
     # game title
     puts "Title:".rjust(13) + " #{game.name}"
@@ -161,7 +164,50 @@ end
       end
     puts "\n"
 
+    line_break
+  end
+
+
+# method to get user to select additional options, checks if it is a valid input
+  def get_input_more_options
+    line_break
+    puts "MORE OPTIONS:".center(@header_width).colorize(@header_color)
+    line_break
+
+    puts "1. Sort List by Names"
+    puts "2. Sort List by Price"
+    puts "3. Sort List by Developer"
+    puts "4. Sort List by Release Date"
+    puts "5. Start Over"
+    puts "6. Exit"
     puts ("~" * @header_width).colorize(@header_color)
+    puts "Please enter 1-6 to continue:"
+    user_input = gets.to_i
+
+    if !user_input.between?(1,6) # check for valid input
+      puts "Invalid Entry, try again.".colorize(:red)
+      get_input_more_options
+    end
+
+    user_input
+  end
+
+
+  def more_actions(input)
+    if input.between?(1,4)
+      # TODO sort_list(user_input)
+      puts "this will send the input to the corresponding list sorting method"
+    elsif input == 5 #start over and clear the instances
+      start_over
+    elsif input == 6 #exits the program
+      puts "Bye! Come back soon!"
+      puts " BBBBBB     YY    YY     EEEEEEE  !!"
+      puts " BB   BB      YY YY      EE       !!"
+      puts " BBBBB         YYY       EEEEE    !!"
+      puts " BB   BB       YY        EE"
+      puts " BBBBBB       YY         EEEEEEE  !!"
+      exit
+    end
   end
 
 
@@ -171,6 +217,16 @@ end
 # return sorted list - by developer alphabetically
 # return sorted list - release date
 
+# line break method to clean up code
+  def line_break
+    puts ("~" * @header_width).colorize(@header_color)
+  end
 
+
+# start the program over and clear the game instances so they do not stack up
+  def start_over
+    Game.reset_all
+    run
+  end
 
 end
