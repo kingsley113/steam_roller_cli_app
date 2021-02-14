@@ -216,30 +216,10 @@ end
     elsif input == 3 # sort list by developer
       sort_list_by_developer
     elsif input == 4 # sort list by release date
-      sorted_list = Game.all.sort_by {|obj| obj.release_date}
-      sort = "release_date"
-      # puts "sort the list by release date"
+      sort_list_by_release_date
     end
-
-
-    # display_sorted_game_list(sorted_list, sort)
   end
 
-
-  # def display_sorted_game_list(sorted_list, sort)
-  #   puts "this would be the sorted game list here"
-  #   sorted_list.each do |game|
-  #     if sort == "name"
-  #       puts "#{game.name}"
-  #     elsif sort == "price"
-  #       puts " sorted by price!! #{game.name}, #{game.price}"
-  #     elsif sort == "developer"
-  #       puts "#{game.name}, #{game.developer}"
-  #     elsif sort == "release_date"
-  #       puts "#{game.name}, #{game.release_date}"
-  #     end
-  #   end
-  # end
 
   def sort_list_by_name # display list sorted by game name
     sorted_list = Game.all.sort_by {|obj| obj.name}
@@ -260,6 +240,9 @@ end
     sorted_list = Game.all.sort_by {|obj| obj.price_stripped}
 
     # display the list
+    line_break
+    puts"GAMES SORTED BY PRICE".center(@header_width).colorize(@header_color)
+    line_break
     sorted_list.each_with_index do |game, index|
       game.list_no = index + 1 # this saves the new list position to request more info later
       puts "#{index + 1}. ".rjust(4) + "#{game.price}".rjust(7) + ": #{game.name}"
@@ -267,12 +250,7 @@ end
   end
 
   def sort_list_by_developer
-    puts "Gathering Game Info"
-    Game.all.each do |game|
-      print "."
-      game.add_missing_info
-    end
-    puts "\n"
+    gather_detailed_game_info
 
     sorted_list = Game.all.sort_by {|obj| obj.developer}
 
@@ -288,7 +266,38 @@ end
     puts"GAMES SORTED BY DEVELOPER".center(@header_width).colorize(@header_color)
     line_break
     sorted_list.each_with_index do |game, index|
-      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + ".#{game.developer}"
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + "..#{game.developer}"
+    end
+    line_break
+  end
+
+
+  def sort_list_by_release_date
+    gather_detailed_game_info
+    sorted_list = []
+    Game.all.each do |game|
+      if game.release_date != "Not Available"
+        game.date_stripped = Date.parse game.release_date
+      elsif game.release_date == "Not Available"
+        game.date_stripped = Date.new(1900,1,1)
+      end
+    end
+
+    sorted_list = Game.all.sort_by{|obj| obj.date_stripped}.reverse
+
+    # gather info for formatting the list
+    lengths = []
+    Game.all.each do |game|
+      lengths << game.name.length
+    end
+    max_length = lengths.max
+
+    # display the sorted list
+    line_break
+    puts"GAMES SORTED BY RELEASE DATE".center(@header_width).colorize(@header_color)
+    line_break
+    sorted_list.each_with_index do |game, index|
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + "..#{game.release_date}"
     end
     line_break
   end
@@ -304,6 +313,17 @@ end
   def start_over
     Game.reset_all
     run
+  end
+
+
+# gather the missing game info for all games, only called when needed to save time
+  def gather_detailed_game_info
+    puts "Gathering Game Info"
+    Game.all.each do |game|
+      print "."
+      game.add_missing_info
+    end
+    puts "\n"
   end
 
 
