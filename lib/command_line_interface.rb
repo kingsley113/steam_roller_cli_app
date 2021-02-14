@@ -208,28 +208,43 @@ end
 
   def sort_game_list(input)
     sorted_list = []
-    if input == 1
-      # sort list alphabetically by name
-      sorted_list = #Game.sort_by_name
-      puts "sort the list by name"
-    elsif input == 2
-      # sort list by price
-      sorted_list = #Game.sort_by_price
-      puts "sort the list by price"
-    elsif input == 3
-      # sort list by developer
-      sorted_list = #Game.sort_by_developer
-      puts "sort the list by developer"
-    elsif input == 4
-      # sort list by release date
-      sorted_list = #Game.sort_by_release_date
-      puts "sort the list by release date"
+    if input == 1 # sort list by name
+      sorted_list = Game.all.sort_by {|obj| obj.name}
+      sort = "name"
+      # puts "sort the list by name"
+    elsif input == 2 # sort list by price
+      sorted_list = Game.all.sort_by {|obj| obj.price}
+      sort = "price"
+      # puts "sort the list by price"
+    elsif input == 3 # sort list by developer
+      sorted_list = Game.all.sort_by {|obj| obj.developer}
+      sort = "developer"
+      # puts "sort the list by developer"
+    elsif input == 4 # sort list by release date
+      sorted_list = Game.all.sort_by {|obj| obj.release_date}
+      sort = "release_date"
+      # puts "sort the list by release date"
     end
-    display_sorted_game_list(sorted_list)
+
+
+    display_sorted_game_list(sorted_list, sort)
   end
 
 
-  def display_sorted_game_list(list_array)
+  def display_sorted_game_list(sorted_list, sort)
+    puts "this would be the sorted game list here"
+    sorted_list.each do |game|
+      if sort = "name"
+        puts "#{game.name}"
+      elsif sort == "price"
+        puts " sorted by price!! #{game.name}, #{game.price}"
+      elsif sort == "developer"
+        puts "#{game.name}, #{game.developer}"
+      elsif sort == "release_date"
+        puts "#{game.name}, #{game.release_date}"
+      end
+
+    end
   end
 
 
