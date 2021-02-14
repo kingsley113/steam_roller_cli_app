@@ -33,6 +33,8 @@ end
     # start second round of actions - this will repeat until user exits
     secondary_input = get_next_input
     secondary_action(secondary_input)
+    # TODO refactor this into its own method to call it later after displaying
+    # sorted lists
 
   end
 # run ------------------------------------------------------
@@ -184,7 +186,6 @@ end
 
   def more_actions(input)
     if input.between?(1,4) #call one of the sorting methods
-      puts "this will send the input to the corresponding list sorting method"
       sort_game_list(input)
     elsif input == 5 #start over and clear the instances
       start_over
@@ -210,18 +211,10 @@ end
     sorted_list = []
     if input == 1 # sort list by name
       sort_list_by_name
-      # = Game.all.sort_by {|obj| obj.name}
-      # sort = "name"
-      # puts "sort the list by name"
     elsif input == 2 # sort list by price
       sort_list_by_price
-      #  = Game.all.sort_by {|obj| obj.price}
-      # sort = "price"
-      # puts "sort the list by price"
     elsif input == 3 # sort list by developer
-      sorted_list = Game.all.sort_by {|obj| obj.developer}
-      sort = "developer"
-      # puts "sort the list by developer"
+      sort_list_by_developer
     elsif input == 4 # sort list by release date
       sorted_list = Game.all.sort_by {|obj| obj.release_date}
       sort = "release_date"
@@ -258,16 +251,48 @@ end
 
 
   def sort_list_by_price
+    # prepare the 'price' by extracting the integer, but keep the string for display
     Game.all.each do |game|
-      game.price_stripped = game.price.scan(/\d/).join
+      game.price_stripped = game.price.scan(/\d/).join.to_i
     end
 
+    # sort the list
     sorted_list = Game.all.sort_by {|obj| obj.price_stripped}
 
+    # display the list
     sorted_list.each_with_index do |game, index|
-      puts "#{index + 1}. ".rjust(4) + "#{game.name}, #{game.price_stripped}"
+      game.list_no = index + 1 # this saves the new list position to request more info later
+      puts "#{index + 1}. ".rjust(4) + "#{game.price}".rjust(7) + ": #{game.name}"
     end
   end
+
+  def sort_list_by_developer
+    puts "Gathering Game Info"
+    Game.all.each do |game|
+      print "."
+      game.add_missing_info
+    end
+    puts "\n"
+
+    sorted_list = Game.all.sort_by {|obj| obj.developer}
+
+    # gather info for formatting the list
+    lengths = []
+    Game.all.each do |game|
+      lengths << game.name.length
+    end
+    max_length = lengths.max
+
+    # display the sorted list
+    line_break
+    puts"GAMES SORTED BY DEVELOPER".center(@header_width).colorize(@header_color)
+    line_break
+    sorted_list.each_with_index do |game, index|
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + ".#{game.developer}"
+    end
+    line_break
+  end
+
 
 # line break method to clean up code
   def line_break
