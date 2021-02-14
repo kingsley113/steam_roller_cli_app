@@ -195,9 +195,8 @@ end
 
   def more_actions(input)
     if input.between?(1,4)
-      # TODO sort_list(user_input)
       puts "this will send the input to the corresponding list sorting method"
-      display_sorted_game_list(input)
+      sort_game_list(input)
     elsif input == 5 #start over and clear the instances
       start_over
     elsif input == 6 #exits the program
@@ -218,24 +217,30 @@ end
 # return sorted list - by developer alphabetically
 # return sorted list - release date
 
-def display_sorted_game_list(input)
-  sorted_list = []
-  if input == 1
-    # sort list alphabetically by name
-    sorted_list = Game.sort_by_name
-  elsif input == 2
-    # sort list by price
-    sorted_list = Game.sort_by_price
-  elsif input == 3
-    # sort list by developer
-    sorted_list = Game.sort_by_developer
-  elsif input == 4
-    # sort list by release date
-    sorted_list = Game.sort_by_release_date
+  def sort_game_list(input)
+    sorted_list = []
+    if input == 1
+      # sort list alphabetically by name
+      sorted_list = #Game.sort_by_name
+      puts "sort the list by name"
+    elsif input == 2
+      # sort list by price
+      sorted_list = #Game.sort_by_price
+      puts "sort the list by price"
+    elsif input == 3
+      # sort list by developer
+      sorted_list = #Game.sort_by_developer
+      puts "sort the list by developer"
+    elsif input == 4
+      # sort list by release date
+      sorted_list = #Game.sort_by_release_date
+      puts "sort the list by release date"
+    end
+    display_sorted_game_list(sorted_list)
   end
-end
 
-
+  def display_sorted_game_list(list_array)
+  end
 
 
 
