@@ -73,18 +73,8 @@ end
 
 # display selected list back to user
   def display_game_list
-    # identify how many characters in the longest name, for formatting output
-    # name_length = []
-    # Game.all.each do |game|
-      # name_length << game.name.length
-    # end
-    # max_length = name_length.max
-
-    # output the list header
-    # @header_width = max_length + 20
     line_break
     puts "#{@selected_list}".center(@header_width).colorize(@header_color)
-    # puts "#{@selected_list}".center(max_length + 20, " ")
     line_break
 
     # output the list details, iterate over each instance to print game list
@@ -110,7 +100,6 @@ end
       puts "Invalid entry, please try again." # check for other invalid entry
       get_next_input
     end
-
   end
 
 
@@ -239,9 +228,9 @@ end
     display_sorted_game_list(sorted_list)
   end
 
+
   def display_sorted_game_list(list_array)
   end
-
 
 
 # line break method to clean up code
@@ -255,5 +244,6 @@ end
     Game.reset_all
     run
   end
+
 
 end
