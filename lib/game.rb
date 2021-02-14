@@ -49,4 +49,7 @@ class Game
   @tags = game_detail[:tags]
   end
 
+
+# TODO add sorting methods to sort @@all by whatever value
+
 end
