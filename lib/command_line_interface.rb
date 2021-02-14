@@ -7,7 +7,12 @@ require 'pry'
 
 class CommandLineInterface
 # establish attributes
-  attr_accessor :selected_list, :game_list_size, :header_width
+  attr_accessor :selected_list, :game_list_size, :header_width, :header_color
+
+def initialize
+  @header_width = 80
+  @header_color = :yellow
+end
 
 # run
   def run
@@ -34,9 +39,9 @@ class CommandLineInterface
 
 # welcome user, prompt for which Steam list to access
   def welcome_user
-    puts "----------------------------------------------------------------------------".colorize(:yellow)
-    puts "Welcome to the Steam Roller! The quickest way to access the top Steam games!".colorize(:yellow)
-    puts "----------------------------------------------------------------------------".colorize(:yellow)
+    puts ("~" * @header_width).colorize(@header_color)
+    puts "Welcome to the Steam Roller! The quickest way to access the top Steam games!".center(@header_width).colorize(@header_color)
+    puts ("~" * @header_width).colorize(@header_color)
     puts "\n"
   end
 
@@ -74,19 +79,19 @@ class CommandLineInterface
     max_length = name_length.max
 
     # output the list header
-    @header_width = max_length + 20
-    puts "\n" + ('-' * @header_width)
-    puts "#{@selected_list}".center(@header_width)
+    # @header_width = max_length + 20
+    puts "\n" + ('~' * @header_width).colorize(@header_color)
+    puts "#{@selected_list}".center(@header_width).colorize(@header_color)
     # puts "#{@selected_list}".center(max_length + 20, " ")
-    puts ('-' * (max_length + 20))
+    puts ('~' * (@header_width)).colorize(@header_color)
 
     # output the list details, iterate over each instance to print game list
     Game.all.each_with_index do |game, index|
-      puts "#{index + 1}.".rjust(3) + " #{game.name}:" + (' ' * (max_length - game.name.length + 9)) + "#{game.price}"
+      puts "#{index + 1}.".rjust(3) + " #{game.name}:" + ('.' * (@header_width - game.name.length - 5 - game.price.length)) + "#{game.price}"
       game.list_no = index + 1
       @game_list_size = index + 1
     end
-    puts ('-' * @header_width)
+    puts ('~' * @header_width).colorize(@header_color)
   end
 
 
@@ -125,9 +130,9 @@ class CommandLineInterface
 # display detailed game info based off of the selected game
   def display_game_info(game)
     # display header
-    puts ("-" * @header_width)
-    puts "Game Info".center(@header_width)
-    puts ("-" * @header_width)
+    puts ("-" * @header_width).colorize(@header_color)
+    puts "Game Info".center(@header_width).colorize(@header_color)
+    puts ("-" * @header_width).colorize(@header_color)
     #display game info lines
     # game title
     puts "Title:".rjust(13) + " #{game.name}"
@@ -156,7 +161,7 @@ class CommandLineInterface
       end
     puts "\n"
 
-    puts ("-" * @header_width)
+    puts ("~" * @header_width).colorize(@header_color)
   end
 
 
