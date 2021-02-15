@@ -33,6 +33,10 @@ class Scraper
       game_name   = info.css(".tab_item_name").text
       game_price  = info.css(".discount_final_price").text
 
+      if game_price == "Free To Play"
+          game_price = "Free"
+        end
+
       game_info = {name: game_name, price: game_price, link: game_link}
       game_list << game_info
     end

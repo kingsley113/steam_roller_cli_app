@@ -31,11 +31,7 @@ end
     display_game_list
 
     # start second round of actions - this will repeat until user exits
-    secondary_input = get_next_input
-    secondary_action(secondary_input)
-    # TODO refactor this into its own method to call it later after displaying
-    # sorted lists
-
+    secondary_action
   end
 # run ------------------------------------------------------
 
@@ -89,24 +85,10 @@ end
   end
 
 
-# promp user for additional action
-  def get_next_input
-    puts "\nSelect game to see more details. (enter 1-15)"
-    puts "For more options, enter 'more'"
-    user_input = gets.chomp
-    if user_input.to_i.between?(1, @game_list_size)   # check for game entry
-      user_input.to_i
-    elsif user_input.downcase == "more"               # check for 'more' entry
-      user_input = 0
-    else
-      puts "Invalid entry, please try again." # check for other invalid entry
-      get_next_input
-    end
-  end
+# perform the next action after getting the base list, this repeats until exit
+  def secondary_action
+    user_input = get_next_input #get the next input from the user
 
-
-# take user input and call next method
-  def secondary_action(user_input)
     if user_input.between?(1, @game_list_size)
       selected_game = Game.all.find{|game| game.list_no == user_input}
       # add in the mising detailed game info
@@ -115,10 +97,25 @@ end
       display_game_info(selected_game)
     elsif user_input == 0
       more_actions(get_input_more_options)
-      #TODO display other options here
     end
-    #TODO make sure this repeats until user exits
+    secondary_action #repeat this until user exits
   end
+
+
+  # promp user for additional action
+    def get_next_input
+      puts "\nSelect game to see more details. (enter 1-15)"
+      puts "For more options, enter 'more'"
+      user_input = gets.chomp
+      if user_input.to_i.between?(1, @game_list_size)   # check for game entry
+        user_input.to_i
+      elsif user_input.downcase == "more"               # check for 'more' entry
+        user_input = 0
+      else
+        puts "Invalid entry, please try again." # check for other invalid entry
+        get_next_input
+      end
+    end
 
 
 # display detailed game info based off of the selected game
@@ -159,7 +156,7 @@ end
   end
 
 
-# method to get user to select additional options, checks if it is a valid input
+# user select additional options, checks if it is a valid input
   def get_input_more_options
     line_break
     puts "MORE OPTIONS:".center(@header_width).colorize(@header_color)
@@ -191,21 +188,10 @@ end
       start_over
     elsif input == 6 #exits the program
       puts "Bye! Come back soon!"
-      puts " BBBBBB     YY    YY     EEEEEEE  !!"
-      puts " BB   BB      YY YY      EE       !!"
-      puts " BBBBB         YYY       EEEEE    !!"
-      puts " BB   BB       YY        EE"
-      puts " BBBBBB       YY         EEEEEEE  !!"
       exit
     end
   end
 
-
-# return sorted list - aplhabetically
-# return sorted list - price
-# return sorted list - rating
-# return sorted list - by developer alphabetically
-# return sorted list - release date
 
   def sort_game_list(input)
     sorted_list = []
@@ -224,9 +210,16 @@ end
   def sort_list_by_name # display list sorted by game name
     sorted_list = Game.all.sort_by {|obj| obj.name}
 
+    line_break
+    puts"GAMES SORTED BY NAME".center(@header_width).colorize(@header_color)
+    line_break
+
     sorted_list.each_with_index do |game, index|
+      game.list_no = index + 1 # this saves the new list position to request more info later
       puts "#{index + 1}. ".rjust(4) + "#{game.name}"
     end
+
+    line_break
   end
 
 
@@ -247,7 +240,9 @@ end
       game.list_no = index + 1 # this saves the new list position to request more info later
       puts "#{index + 1}. ".rjust(4) + "#{game.price}".rjust(7) + ": #{game.name}"
     end
+    line_break
   end
+
 
   def sort_list_by_developer
     gather_detailed_game_info
@@ -266,15 +261,17 @@ end
     puts"GAMES SORTED BY DEVELOPER".center(@header_width).colorize(@header_color)
     line_break
     sorted_list.each_with_index do |game, index|
-      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + "..#{game.developer}"
+      game.list_no = index + 1 # this saves the new list position to request more info later
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + "....#{game.developer}"
     end
     line_break
   end
 
 
   def sort_list_by_release_date
+    # gather the missing detailed game info
     gather_detailed_game_info
-    sorted_list = []
+    # sorted_list = []
     Game.all.each do |game|
       if game.release_date != "Not Available"
         game.date_stripped = Date.parse game.release_date
@@ -282,7 +279,7 @@ end
         game.date_stripped = Date.new(1900,1,1)
       end
     end
-
+    # sort the list by release date
     sorted_list = Game.all.sort_by{|obj| obj.date_stripped}.reverse
 
     # gather info for formatting the list
@@ -297,7 +294,8 @@ end
     puts"GAMES SORTED BY RELEASE DATE".center(@header_width).colorize(@header_color)
     line_break
     sorted_list.each_with_index do |game, index|
-      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + "..#{game.release_date}"
+      game.list_no = index + 1 # this saves the new list position to request more info later
+      puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + "....#{game.release_date}"
     end
     line_break
   end
@@ -316,7 +314,7 @@ end
   end
 
 
-# gather the missing game info for all games, only called when needed to save time
+# gather the detailed game info for all games, only called when needed, to save time
   def gather_detailed_game_info
     puts "Gathering Game Info"
     Game.all.each do |game|
@@ -325,6 +323,4 @@ end
     end
     puts "\n"
   end
-
-
 end
