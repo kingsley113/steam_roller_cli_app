@@ -12,9 +12,9 @@ After the user selects a game to view in detail, they are presented the list of 
 One limitation to this program is that it cannot display detailed info on mature rated games. The Steam required an age validation that cannot be passed with this implementation of Nokogiri.
 
 SteamRoller makes use of the following classes:
-  -'Game' class to store the game instances
-  -'Scraper' class to scrape the info from websites
-  -'CLI' class to run and execute the program
+  * 'Game' class to store the game instances
+  * 'Scraper' class to scrape the info from websites
+  * 'CLI' class to run and execute the program
 
 # Installation Instructions
 Code can be cloned from the following GitHub repository:
@@ -38,3 +38,17 @@ To run this CLI program, the following gems are required:
 
 # License
   MIT open source license, Copyright 2021 Cameron Kingsley
+
+# Contributing
+If you notice a problem with the program that you believe needs improvement
+but you're unable to make the change yourself, you should raise a Github issue
+containing a clear description of the problem.
+
+If you see an opportunity for improvement and can make the change yourself go
+ahead and use a typical git workflow to make it happen:
+
+* Fork this program's repository
+* Make the change on your fork, with descriptive commits in the standard format
+* Open a Pull Request against this repo
+
+The changes will be reviewed and approved or commented in due course.
