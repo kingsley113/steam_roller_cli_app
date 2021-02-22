@@ -16,7 +16,7 @@ SteamRoller makes use of the following classes:
   -'Scraper' class to scrape the info from websites
   -'CLI' class to run and execute the program
 
-# install instruction
+# Installation Instructions
 Code can be cloned from the following GitHub repository:
 https://github.com/kingsley113/steam_roller_cli_app.git
 The bin and lib directories with class definitions are required.
@@ -24,7 +24,7 @@ To run this CLI program, the following gems are required:
   -Nokogiri
   -Colorize
 
-# user instructions
+# User Instructions
   1. start the program by running the bin/steamroller.rb file
   2. user is greeted and then prompted to enter 1 or 2 for which game list to review
   3. Corresponding game list is then scraped, returned and displayed.
@@ -36,5 +36,5 @@ To run this CLI program, the following gems are required:
     -"Start Over" - program will reset the game instances and start at the beginning to select the game list
     -"Exit" - exits the program
 
-# license
+# License
   MIT open source license, Copyright 2021 Cameron Kingsley
