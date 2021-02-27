@@ -212,7 +212,7 @@ end
       puts "#{index + 1}. ".rjust(4) + "#{game.name}"
     end
 
-    line_break
+    line_break 
   end
 
 
