@@ -36,7 +36,6 @@ class Game
     end
   end
 
-
 # check for missing info - pass to scraper to get info
   def add_missing_info
   # scrape game page and gather the detailed info
@@ -48,8 +47,4 @@ class Game
   @rating = game_detail[:rating]
   @tags = game_detail[:tags]
   end
-
-
-# TODO add sorting methods to sort @@all by whatever value
-
 end

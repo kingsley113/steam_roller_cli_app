@@ -74,7 +74,4 @@ class Scraper
 
     game_detail
   end
-
-
-# Scrape Developer page and get list of games they released
 end

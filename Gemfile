@@ -3,4 +3,4 @@ source "https://rubygems.org"
 
 gem 'pry'
 gem 'nokogiri', '1.10.8'
-gem 'solargraph', group: :development
+gem 'solargraph', group: :development 

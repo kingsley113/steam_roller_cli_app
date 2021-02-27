@@ -1,6 +1,6 @@
 # Steam Roller Readme
 
-#Overview
+# Overview
 This program is intended to scan the Steam Games webpage and return the list of top games and their info to inspect. The program can look at either the top selling list of games or the newest releases. At the time of programming the list returns 15 games per list, but the program can adjust for any length list if the Steam Games pages are to ever change.
 
 The advantage to this program is bypassing the graphics & image heavy webpage. This is able to look up the info needed much quicker by simply scraping text data.

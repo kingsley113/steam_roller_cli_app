@@ -127,7 +127,7 @@ end
     # game title
     puts "Title:".rjust(13) + " #{game.name}"
     # list number "#X top seller" etc.
-    puts "Rank:".rjust(13) + " ##{game.list_no} #{@selected_list.chop.chop}"
+    puts "Rank:".rjust(13) + " ##{game.list_no}"
     # price
     puts "Price:".rjust(13) + " #{game.price}"
     # rating
@@ -136,21 +136,22 @@ end
     puts "Release Date:".rjust(13) + " #{game.release_date}"
     # developer
     puts "Developer:".rjust(13) + " #{game.developer}"
+    # link
+    puts "Link:".rjust(13) + " #{game.link}"
     # tags
-      print "User Tags:".rjust(13) + " "
-      if game.tags != "Not Available"
-        game.tags.each_with_index do |tag, index|
-          if index == 0
-            print "#{tag}"
-          else
-            print ", #{tag}"
-          end
+    print "User Tags:".rjust(13) + " "
+    if game.tags != "Not Available"
+      game.tags.each_with_index do |tag, index|
+        if index == 0
+          print "#{tag}"
+        else
+          print ", #{tag}"
         end
-      else
-        print "Not Available"
       end
+    else
+      print "Not Available"
+    end
     puts "\n"
-
     line_break
   end
 
@@ -167,7 +168,7 @@ end
     puts "4. Sort List by Release Date"
     puts "5. Start Over"
     puts "6. Exit"
-    puts ("~" * @header_width).colorize(@header_color)
+    line_break
     puts "Please enter 1-6 to continue:"
     user_input = gets.to_i
 
@@ -181,27 +182,20 @@ end
 
 
   def more_actions(input)
-    if input.between?(1,4) #call one of the sorting methods
-      sort_game_list(input)
-    elsif input == 5 #start over and clear the instances
+    case input
+    when 1 # sort list by name
+      sort_list_by_name
+    when 2 # sort list by price
+      sort_list_by_price
+    when 3 # sort list by developer
+      sort_list_by_developer
+    when 4 # sort list by release date
+      sort_list_by_release_date 
+    when 5 #start over and clear the instances
       start_over
-    elsif input == 6 #exits the program
+    when 6 #exits the program
       puts "Bye! Come back soon!"
       exit
-    end
-  end
-
-
-  def sort_game_list(input)
-    sorted_list = []
-    if input == 1 # sort list by name
-      sort_list_by_name
-    elsif input == 2 # sort list by price
-      sort_list_by_price
-    elsif input == 3 # sort list by developer
-      sort_list_by_developer
-    elsif input == 4 # sort list by release date
-      sort_list_by_release_date
     end
   end
 
