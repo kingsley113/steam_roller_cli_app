@@ -233,7 +233,7 @@ end
       game.list_no = index + 1 # this saves the new list position to request more info later
       puts "#{index + 1}. ".rjust(4) + "#{game.price}".rjust(7) + ": #{game.name}"
     end
-    line_break
+    line_break 
   end
 
 
