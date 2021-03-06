@@ -19,7 +19,7 @@ end
     user_list_selection = get_first_input
 
     if user_list_selection == 1
-      game_array = Scraper.new.scrape_new_release_page
+      game_arr ay = Scraper.new.scrape_new_release_page
       make_game_objects(game_array)
       @selected_list = "NEW RELEASES:"
     elsif user_list_selection == 2
@@ -276,7 +276,7 @@ end
     sorted_list = Game.all.sort_by{|obj| obj.date_stripped}.reverse
 
     # gather info for formatting the list
-    lengths = []
+    lengths = [] #make this its own method?
     Game.all.each do |game|
       lengths << game.name.length
     end
@@ -287,7 +287,7 @@ end
     puts"GAMES SORTED BY RELEASE DATE".center(@header_width).colorize(@header_color)
     line_break
     sorted_list.each_with_index do |game, index|
-      game.list_no = index + 1 # this saves the new list position to request more info later
+      game.list_no = index + 1 # this saves the new list position to request more info later bre
       puts "#{index + 1}. ".rjust(4) + "#{game.name}" + "." * (max_length - game.name.length) + "....#{game.release_date}"
     end
     line_break

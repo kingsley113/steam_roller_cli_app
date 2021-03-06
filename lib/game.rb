@@ -31,7 +31,7 @@ class Game
 # create game objects
   def self.create_from_collection(game_list)
     game_list.each do |game_object|
-      game = Game.new(game_object[:name], game_object[:price], game_object[:link])
+      game = new(game_object[:name], game_object[:price], game_object[:link])
       game.save
     end
   end

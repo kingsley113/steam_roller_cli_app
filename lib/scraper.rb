@@ -16,6 +16,7 @@ class Scraper
     new_games
   end
 
+  # make these one method
 # -----scrape Steam highest rated games page----
   def scrape_top_sellers_page
     doc = Nokogiri::HTML(open(@@top_sellers_link))  # get html data from website
@@ -25,23 +26,19 @@ class Scraper
     top_games
   end
 
-
+  
   def assemble_game_info(game_data)
-    game_list = []
-    game_data.each do |info|                  # interate through each game item
+    game_data.collect do |info|                  # interate through each game item
       game_link   = info["href"]
       game_name   = info.css(".tab_item_name").text
       game_price  = info.css(".discount_final_price").text
-
+# use collect?
       if game_price == "Free To Play"
           game_price = "Free"
         end
 
-      game_info = {name: game_name, price: game_price, link: game_link}
-      game_list << game_info
+      {name: game_name, price: game_price, link: game_link}
     end
-
-    game_list
   end
 
 
