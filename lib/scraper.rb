@@ -1,5 +1,7 @@
 require 'open-uri'
 require 'pry'
+require 'nokogiri'
+require 'net/http'
 
 class Scraper
 # establish attributes
@@ -9,7 +11,7 @@ class Scraper
 
 # ----scrape Steam new release games page----
   def scrape_new_release_page
-    doc = Nokogiri::HTML(open(@@new_release_link))  # get html data from website
+    doc = Nokogiri::HTML(URI.open(@@new_release_link))  # get html data from website
     game_list = doc.css('div#NewReleasesRows a')    # create array of games
 
     new_games = assemble_game_info(game_list)       # gather the basic game info
@@ -19,7 +21,7 @@ class Scraper
   # make these one method
 # -----scrape Steam highest rated games page----
   def scrape_top_sellers_page
-    doc = Nokogiri::HTML(open(@@top_sellers_link))  # get html data from website
+    doc = Nokogiri::HTML(URI.open(@@top_sellers_link))  # get html data from website
     game_list = doc.css('div#TopSellersRows a')     # create array of games
 
     top_games = assemble_game_info(game_list)       # gather the basic game info
@@ -45,7 +47,7 @@ class Scraper
 # Scrape game page to fill in missing game info - only after selected on users
 # 2nd input selection to save time
   def scrape_game_page(link)
-    doc = Nokogiri::HTML(open(link))  # get html data from website
+    doc = Nokogiri::HTML(URI.open(link))  # get html data from website
     # get release date
     release_date = doc.css(".release_date div.date").text
     # get developer

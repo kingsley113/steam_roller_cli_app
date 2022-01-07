@@ -19,7 +19,7 @@ end
     user_list_selection = get_first_input
 
     if user_list_selection == 1
-      game_arr ay = Scraper.new.scrape_new_release_page
+      game_array = Scraper.new.scrape_new_release_page
       make_game_objects(game_array)
       @selected_list = "NEW RELEASES:"
     elsif user_list_selection == 2
