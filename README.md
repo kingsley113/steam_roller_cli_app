@@ -1,6 +1,9 @@
 # Steam Roller Readme
 
-# Overview
+## Demo Video
+https://www.youtube.com/watch?v=r7dxD9iRyE0&ab_channel=CameronKingsley
+
+## Overview
 
 This program is intended to scan the Steam Games webpage and return the list of top games and their info to inspect. The program can look at either the top selling list of games or the newest releases. At the time of programming the list returns 15 games per list, but the program can adjust for any length list if the Steam Games pages are to ever change.
 
@@ -18,7 +21,7 @@ SteamRoller makes use of the following classes:
 - 'Scraper' class to scrape the info from websites
 - 'CLI' class to run and execute the program
 
-# Installation Instructions
+## Installation Instructions
 
 Code can be cloned from the following GitHub repository:
 https://github.com/kingsley113/steam_roller_cli_app.git
@@ -28,7 +31,7 @@ To run this CLI program, the following gems are required:
 -Colorize
 Run '$ bundle install' to install all required gems
 
-# User Instructions
+## User Instructions
 
 1. start the program by running the bin/steamroller.rb file
 2. user is greeted and then prompted to enter 1 or 2 for which game list to review
@@ -41,11 +44,11 @@ Run '$ bundle install' to install all required gems
    -"Start Over" - program will reset the game instances and start at the beginning to select the game list
    -"Exit" - exits the program
 
-# License
+## License
 
 MIT open source license, Copyright 2021 Cameron Kingsley
 
-# Contributing
+## Contributing
 
 If you notice a problem with the program that you believe needs improvement
 but you're unable to make the change yourself, you should raise a Github issue
